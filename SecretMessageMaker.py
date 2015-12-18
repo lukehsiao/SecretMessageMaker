@@ -3,15 +3,11 @@
 import sys, os, io, string
 import argparse
 
-# Constants used to encrypt the message
-EXTRA_LETTERS = 2
-SECRET_SHIFT = 5
-
 def parse_args():
     """
     Function: parse_args
     --------------------
-    Parse the table extractor arguments
+    Parse the commandline arguments for SecretMessageMaker
     """
     # Define what commandline arguments can be accepted
     parser = argparse.ArgumentParser()
@@ -27,7 +23,8 @@ def parse_args():
     if not os.path.exists(file_name):
         parser.error("The file %s does not exist!" % file_name)
 
-    # Check to make sure you're running the correct thing.
+    # Check to make sure the user isn't going to accidentally override
+    # something, or accidentally encrypt something twice.
     if "secret_" in args.filename and args.encrypt:
         # If you're encrypted an already encrypted message
         parser.error("[error] You're ENCRYPTING an encrypted file!")
@@ -35,10 +32,13 @@ def parse_args():
     elif "secret_" not in args.filename and not args.encrypt:
         parser.error("[error] You're DECRYPTING a plain file!")
 
+    # Let the user know which commands the program sees, and which files will
+    # be made.
     if args.encrypt:
         print "[info] ENCRYPTING %s into secret_%s..." % (file_name, file_name)
     else:
-        print "[info] DECRYPTING %s into %s..." % (file_name, file_name.replace("secret_", ''))
+        print ("[info] DECRYPTING %s into %s..." % (file_name,
+            file_name.replace("secret_", '')))
 
     return args
 
@@ -82,8 +82,10 @@ if __name__ == "__main__":
 
     # Open output file
     if args.encrypt:
+        # If encrypting, append secret_ to the front
         out_file = open("secret_" + args.filename, 'w')
     else:
+        # If decrypting, remove secret_ from the filename
         out_file = open(args.filename.replace("secret_", ''), 'w')
 
     # Iterate over every line of the file
@@ -95,5 +97,6 @@ if __name__ == "__main__":
             # Run decryption algorithm
             out_file.write(decrypt(line))
 
+    # Close the files that we were using
     in_file.close()
     out_file.close()
