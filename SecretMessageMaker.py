@@ -19,17 +19,21 @@ def parse_args():
                         help="run program in encryption mode. Default: decrypt")
     parser.add_argument('filename', metavar="FILE",
                         help="path of input text file (required)")
-    # parser.add_argument("-o","--output", action="store",
-    #                     help="path to store the output file. Default: print to console")
     args = parser.parse_args()
 
     # Validate the filename
     file_name = args.filename
-    # if args.output is None:
-    #     parser.error("The output file wasn't specified!")
 
     if not os.path.exists(file_name):
         parser.error("The file %s does not exist!" % file_name)
+
+    # Check to make sure you're running the correct thing.
+    if "secret_" in args.filename and args.encrypt:
+        # If you're encrypted an already encrypted message
+        parser.error("[error] You're ENCRYPTING an encrypted file!")
+
+    elif "secret_" not in args.filename and not args.encrypt:
+        parser.error("[error] You're DECRYPTING a plain file!")
 
     if args.encrypt:
         print "[info] ENCRYPTING %s into secret_%s..." % (file_name, file_name)
@@ -75,17 +79,6 @@ if __name__ == "__main__":
 
     # Open input file
     in_file = open(args.filename, 'r')
-
-    # Check to make sure you're running the correct thing.
-    if "secret_" in args.filename and args.encrypt:
-        # If you're encrypted an already encrypted message
-        print "[error] You're ENCRYPTING an encrypted file!"
-        in_file.close()
-        sys.exit(0)
-    elif "secret_" not in args.filename and not args.encrypt:
-        print "[error] You're DECRYPTING a plain file!"
-        in_file.close()
-        sys.exit(0)
 
     # Open output file
     if args.encrypt:
