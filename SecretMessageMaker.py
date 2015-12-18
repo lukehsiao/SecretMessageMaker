@@ -44,6 +44,12 @@ def encrypt(plain_line):
     @param plain_line   the line to be encrypted
     @return             the encrypted version of the 'line'
     """
+    char_list = list(plain_line)
+    encrypted_list = []
+    for character in char_list:
+        encrypted_list.append(ord(character))
+
+    return ' '.join(encrypted_list)
 
 def decrypt(encrypted_line):
     """
@@ -53,16 +59,28 @@ def decrypt(encrypted_line):
     @param encrypted_line   the line to be encrypted
     @return                 the encrypted version of the 'line'
     """
+    num_list = encrypted_line.split()
+    decrypted_list = []
+    for number in num_list:
+        decrypted_list = chr(int(number))
+
+    return ''.join(decrypted_list)
 
 # Main Function
 if __name__ == "__main__":
     args = parse_args() # parse commandline arguments
 
     # Open input file
+    in_file = open(args.filename, 'r')
+
+    # Open output file
+    out_file = open(args.output, 'w')
 
     # Iterate over every line of the file
-
-    if args.encrypt:
-        # Run encryption algorithm
-    else:
-        # Run decryption algorithm
+    for line in in_file:
+        if args.encrypt:
+            # Run encryption algorithm
+            outfile.write(encrypt(line) + '\n')
+        else:
+            # Run decryption algorithm
+            outfile.write(decrypt(line) + '\n')
