@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 
+import sys, os, io
+import argparse
 
 # Constants used to encrypt the message
 EXTRA_LETTERS = 2
@@ -21,17 +23,18 @@ def parse_args():
                         help="path to store the output file. Default: print to console")
     args = parser.parse_args()
 
-    # Set the debug flag
-    if args.debug:
-        print "[info] Running in DEBUG mode."
-
     # Validate the filename
     file_name = args.filename
-    if args.output is not None and not os.path.exists(args.output):
-        os.makedirs(args.output)
+    if args.output is None:
+        parser.error("The output file wasn't specified!")
 
     if not os.path.exists(file_name):
         parser.error("The file %s does not exist!" % file_name)
+
+    if args.encrypt:
+        print "[info] ENCRYPTING %s into %s..." % (file_name, args.output)
+    else:
+        print "[info] DECRYPTING %s into %s..." % (file_name, args.output)
 
     return args
 
@@ -47,7 +50,7 @@ def encrypt(plain_line):
     char_list = list(plain_line)
     encrypted_list = []
     for character in char_list:
-        encrypted_list.append(ord(character))
+        encrypted_list.append(str(ord(character)))
 
     return ' '.join(encrypted_list)
 
@@ -62,7 +65,7 @@ def decrypt(encrypted_line):
     num_list = encrypted_line.split()
     decrypted_list = []
     for number in num_list:
-        decrypted_list = chr(int(number))
+        decrypted_list.append(chr(int(number)))
 
     return ''.join(decrypted_list)
 
@@ -80,7 +83,10 @@ if __name__ == "__main__":
     for line in in_file:
         if args.encrypt:
             # Run encryption algorithm
-            outfile.write(encrypt(line) + '\n')
+            out_file.write(encrypt(line) + ' ') # add space between lines
         else:
             # Run decryption algorithm
-            outfile.write(decrypt(line) + '\n')
+            out_file.write(decrypt(line))
+
+    in_file.close()
+    out_file.close()
