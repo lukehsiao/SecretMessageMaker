@@ -27,6 +27,7 @@ optional arguments:
 ## Overview
 ### Input
 A short, human-readable text file. No UNICODE characters are supported. ASCII only.
+Input files should be stored in the same directory as SecretMessageMaker.py
 
 ### Output
 A bloated, garbled version of the input text. This is created simply by inserting random letters in between valid letters, and shifting valid letters by a constant amount.
