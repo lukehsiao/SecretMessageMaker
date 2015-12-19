@@ -6,7 +6,10 @@ On Linux, you will first need to install python:
 ```
 $ sudo apt-get install python-dev
 ```
-This is built and tested for **Python Version: X.XX**
+
+On Windows, install Python 2.7 from [Python.org](https://www.python.org/ftp/python/2.7.11/python-2.7.11.msi)
+
+This is built and tested for **Python Version: 2.7.11**
 
 ## Usage
 ```
