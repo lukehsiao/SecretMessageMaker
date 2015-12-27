@@ -38,6 +38,8 @@ into secret\_filename.txt which will be non-human-readable. If decryption is run
 starting with 'secret\_', the decrypted message will be the human-readable version of
 secret file, and the filename will have the 'secret\_' removed.
 
+*Note that if you are running python on Windows, you can open the command prompt at the project location and omit "python" at the start of the encryption and decryption commands.*
+
 ```
 message.txt:
 -------------
