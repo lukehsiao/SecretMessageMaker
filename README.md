@@ -1,5 +1,5 @@
 # SecretMessageMaker
-A simple program used to introduce kids to programming. Turns a human readable string into a non-human readable string in a deterministic way. Used to introduce kids to simple constructs like if-then statements and how letters and numerically represented in computers.
+A simple program used to introduce kids to programming. Turns a human readable string into a non-human readable string in a deterministic way. Used to introduce kids to simple constructs like if-then statements and how letters are numerically represented in computers.
 
 ## Dependencies
 On Linux, you will first need to install python:
